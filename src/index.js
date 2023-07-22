@@ -1,16 +1,31 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import AnimatedText from 'react-animated-text-content';
 import ReactDOM from 'react-dom/client';
 
 function R18App () {
 
-    const reference = useRef(null)
+   const [animatedText,setAnimatedText] = useState("")
 
+    const reference = useRef(null)
+    
+    const [values, setValues] = useState("")
+    
+    const handleChange = (e) => {
+        setValues(e.target.value)
+    }
+ 
     useEffect(() => {
         reference.current.focus()
     })
+    
+    const handleClick = () => {
+        setAnimatedText(values)
+    }
 
     return (
-        <div style={{
+        <form 
+            onSubmit={(e)=>e.preventDefault()}
+            style={{
             position:"absolute",
             top:"50%",
             left:"50%",
@@ -28,8 +43,13 @@ function R18App () {
                 border: 'none',
                 borderBottom:'2px solid black'
             }}  placeholder='enter text to convert'
-                ref={reference}/>
-            <button style={{
+                ref={reference}
+                value={values}
+                onChange={handleChange}
+                />
+            <button 
+                onClick={handleClick}
+                style={{
                 margin:'50px',
                 width:'100px',
                 height:'50px',
@@ -39,7 +59,16 @@ function R18App () {
                 color:'white',
                 cursor:'pointer',
             }}>Click me</button>
-        </div>
+            <AnimatedText
+            type="words"
+            animation={{
+                x:'200px',
+            }}
+            >
+                {animatedText}
+            </AnimatedText>
+
+        </form>
     )
 }
 
